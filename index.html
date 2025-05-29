@@ -1,250 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Anniversary Love Rain</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Anniversary Love Rain</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    html, body {
-      min-height: 100vh;
-      width: 100%;
-      overflow: hidden;
-    }
+        html, body {
+            min-height: 100vh;
+            width: 100%;
+            overflow: hidden; /* Ngăn cuộn trang */
+        }
 
-    body {
-      background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
-      font-family: 'Pacifico', cursive;
-      position: relative;
-      perspective: 1000px;
-    }
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
+            font-family: 'Pacifico', cursive;
+            position: relative;
+            perspective: 1000px; /* Cho hiệu ứng 3D */
+        }
 
-    .falling-container {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      transform-style: preserve-3d;
-    }
+        /* Container cho các phần tử rơi xuống */
+        .falling-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Cho phép tương tác với các lớp bên dưới */
+            transform-style: preserve-3d; /* Giữ hiệu ứng 3D cho các con */
+        }
 
-    .falling-text {
-      position: absolute;
-      color: #ff69b4;
-      font-weight: bold;
-      white-space: nowrap;
-      animation: fall linear forwards;
-      will-change: transform, opacity;
-      text-shadow: 0 0 8px currentColor;
-      opacity: 0.9;
-      font-size: calc(0.8em + 0.5vw);
-      max-width: 80vw;
-      overflow-wrap: break-word;
-    }
+        /* Kiểu chữ rơi */
+        .falling-text {
+            position: absolute;
+            color: #ff69b4; /* Màu hồng */
+            font-weight: bold;
+            white-space: nowrap; /* Ngăn chữ xuống dòng */
+            animation: fall linear forwards; /* Áp dụng animation "fall" */
+            will-change: transform, opacity; /* Tối ưu hóa hiệu suất animation */
+            text-shadow: 0 0 8px currentColor; /* Hiệu ứng đổ bóng */
+            opacity: 0.9;
+            font-size: calc(0.8em + 0.5vw); /* Kích thước chữ động */
+            max-width: 80vw;
+            overflow-wrap: break-word; /* Đảm bảo chữ dài vẫn có thể xuống dòng nếu cần */
+        }
 
-    .falling-text:nth-child(2n) { color: #ff1493; }
-    .falling-text:nth-child(3n) { color: #ffc0cb; }
-    .falling-text:nth-child(4n) { color: #da70d6; }
+        /* Các biến thể màu sắc cho chữ rơi */
+        .falling-text:nth-child(2n) { color: #ff1493; } /* Deep Pink */
+        .falling-text:nth-child(3n) { color: #ffc0cb; } /* Pink */
+        .falling-text:nth-child(4n) { color: #da70d6; } /* Orchid */
 
-    @keyframes fall {
-      0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(110vh) rotate(5deg); opacity: 0; }
-    }
+        /* Keyframes cho animation chữ rơi */
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(110vh) rotate(5deg); opacity: 0; }
+        }
 
-    .heart {
-      position: absolute;
-      color: #ff4500;
-      font-size: calc(1.2em + 0.5vw);
-      animation: heartFloat linear forwards;
-      will-change: transform, opacity;
-      text-shadow: 0 0 12px #ff4500;
-    }
+        /* Kiểu trái tim */
+        .heart {
+            position: absolute;
+            color: #ff4500; /* Màu đỏ cam */
+            font-size: calc(1.2em + 0.5vw); /* Kích thước trái tim động */
+            animation: heartFloat linear forwards; /* Áp dụng animation "heartFloat" */
+            will-change: transform, opacity; /* Tối ưu hóa hiệu suất animation */
+            text-shadow: 0 0 12px #ff4500; /* Hiệu ứng đổ bóng */
+        }
 
-    @keyframes heartFloat {
-      0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(-100px) scale(1.2) rotate(360deg); opacity: 0; }
-    }
+        /* Keyframes cho animation trái tim nổi lên */
+        @keyframes heartFloat {
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.2) rotate(360deg); opacity: 0; }
+        }
 
-    .controls {
-      position: fixed;
-      top: 20px; left: 20px;
-      color: #ff69b4;
-      font-size: 1em;
-      z-index: 100;
-      text-shadow: 0 0 5px #ff69b4;
-      font-family: Arial, sans-serif;
-      padding: 0.5em;
-      max-width: 90%;
-      word-break: break-word;
-    }
+        /* Vùng điều khiển ở góc trên bên trái */
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #ff69b4;
+            font-size: 1em;
+            z-index: 100; /* Đảm bảo nằm trên cùng */
+            text-shadow: 0 0 5px #ff69b4;
+            font-family: Arial, sans-serif;
+            padding: 0.5em;
+            max-width: 90%;
+            word-break: break-word;
+        }
 
-    .tap-area {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: #ff69b4;
-      font-size: 1.1em;
-      text-align: center;
-      animation: pulse 2s infinite;
-      z-index: 100;
-      cursor: pointer;
-      font-family: Arial, sans-serif;
-      padding: 0.5em 1em;
-    }
+        /* Vùng "Tap Here" ở cuối trang */
+        .tap-area {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff69b4;
+            font-size: 1.1em;
+            text-align: center;
+            animation: pulse 2s infinite; /* Hiệu ứng nhấp nháy */
+            z-index: 100;
+            cursor: pointer; /* Biến con trỏ thành bàn tay */
+            font-family: Arial, sans-serif;
+            padding: 0.5em 1em;
+        }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
-      50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
-    }
+        /* Keyframes cho hiệu ứng pulse */
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+        }
 
-    @media (max-width: 768px) {
-      .falling-text {
-        font-size: 4vw;
-      }
+        /* Responsive CSS cho thiết bị di động */
+        @media (max-width: 768px) {
+            .falling-text {
+                font-size: 4vw;
+            }
 
-      .heart {
-        font-size: 5vw;
-      }
+            .heart {
+                font-size: 5vw;
+            }
 
-      .controls, .tap-area {
-        font-size: 3.5vw;
-        text-align: center;
-      }
-    }
+            .controls, .tap-area {
+                font-size: 3.5vw;
+                text-align: center;
+            }
+        }
 
-    /* Ẩn trình phát nhạc YouTube */
-    .youtube-player {
-      width: 0;
-      height: 0;
-      position: absolute; /* Để không ảnh hưởng đến bố cục */
-      left: -9999px; /* Đặt ra ngoài màn hình */
-    }
-  </style>
+        /* Ẩn trình phát nhạc YouTube (được giữ lại trong CSS để đảm bảo không lỗi) */
+        .youtube-player {
+            width: 0;
+            height: 0;
+            position: absolute;
+            left: -9999px;
+            opacity: 0; /* Đảm bảo ẩn hoàn toàn */
+            pointer-events: none; /* Không thể tương tác với iframe ẩn */
+        }
+    </style>
 </head>
 <body>
-  <div class="falling-container" id="container"></div>
+    <div class="falling-container" id="container"></div>
 
-  <div class="controls">
-    📱 Touch để tạo thêm text<br>
-    💕 Tuấn ❤️ Tuấn Anniversary
-  </div>
+    <div class="controls">
+        📱 Touch để tạo thêm text<br>
+        💕 Tuấn ❤️ Tuấn Anniversary
+    </div>
 
-  <div class="tap-area" onclick="createBurst()">✨ TAP HERE FOR MORE LOVE ✨</div>
+    <div class="tap-area" onclick="createBurst()">✨ TAP HERE FOR MORE LOVE ✨</div>
 
-  <audio id="bgm" preload="auto" loop>
-    <source src="Music/DungLamTraiTimAnhDau.mp3" type="audio/mpeg">
-  </audio>
+    <audio id="bgm" preload="auto" loop>
+      <source src="DungLamTraiTimAnhDau.mp3" type="audio/mpeg">
+      Trình duyệt của bạn không hỗ trợ phát âm thanh.
+    </audio>
 
- <!-- <iframe src="https://www.nhaccuatui.com/mh/background/ohjpZEluVLBb" width="1" height="1" frameborder="0" allowfullscreen allow="autoplay"></iframe>
-   -->
-  
-  <script>
-    const messages = [
-      "1 Year Anniversary", "Love u in every universe",
-      "Always by my side", "Nguyễn Thanh Tuấn ❤️ Nguyễn Thanh Tuấn",
-      "Forever & Always", "My Heart ❤️",
-      "Together Forever", "Love You Baby",
-      "Yêu em mãi mãi", "Mãi bên nhau", "My Love, My Destiny", "Ich liebe dich ❤️❤️❤️"
-    ];
+    <script>
+        const messages = [
+            "1 Year Anniversary", "Love u in every universe",
+            "Always by my side", "Nguyễn Thanh Tuấn ❤️ Nguyễn Thanh Tuấn",
+            "Forever & Always", "My Heart ❤️",
+            "Together Forever", "Love You Baby",
+            "Yêu em mãi mãi", "Mãi bên nhau", "My Love, My Destiny", "Ich liebe dich ❤️❤️❤️"
+        ];
 
-    const container = document.getElementById('container');
-    const MAX_ELEMENTS = 400;
-    const bgm = document.getElementById("bgm");
-    let musicStarted = false;
+        const container = document.getElementById('container');
+        const MAX_ELEMENTS = 400;
 
-    function getRandomMessage() {
-      return messages[Math.floor(Math.random() * messages.length)];
-    }
+        // Lấy thẻ audio
+        const bgm = document.getElementById("bgm"); 
+        let musicStarted = false; // Biến cờ để đảm bảo nhạc chỉ phát một lần
 
-    function createFallingText() {
-      if (container.childNodes.length > MAX_ELEMENTS) return;
-      const text = document.createElement('div');
-      text.className = 'falling-text';
-      text.textContent = getRandomMessage();
-      text.style.left = Math.random() * (window.innerWidth - 150) + 'px';
-      text.style.top = '-100px';
+        function getRandomMessage() {
+            return messages[Math.floor(Math.random() * messages.length)];
+        }
 
-      const duration = 6 + Math.random() * 3;
-      text.style.animationDuration = duration + 's';
-      text.style.animationDelay = Math.random() * 1.5 + 's';
-      text.style.transform = `rotate(${(Math.random() - 0.5) * 10}deg)`;
+        function createFallingText() {
+            if (container.childNodes.length > MAX_ELEMENTS) return;
+            const text = document.createElement('div');
+            text.className = 'falling-text';
+            text.textContent = getRandomMessage();
+            text.style.left = Math.random() * (window.innerWidth - 150) + 'px';
+            text.style.top = '-100px';
 
-      container.appendChild(text);
-      setTimeout(() => text.remove(), (duration + 2) * 1000);
-    }
+            const duration = 6 + Math.random() * 3;
+            text.style.animationDuration = duration + 's';
+            text.style.animationDelay = Math.random() * 1.5 + 's';
+            text.style.transform = `rotate(${(Math.random() - 0.5) * 10}deg)`;
 
-    function createHeart() {
-      if (container.childNodes.length > MAX_ELEMENTS) return;
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.innerHTML = '❤️';
-      heart.style.left = Math.random() * (window.innerWidth - 50) + 'px';
-      heart.style.bottom = '-50px';
+            container.appendChild(text);
+            setTimeout(() => text.remove(), (duration + 2) * 1000);
+        }
 
-      const duration = 5 + Math.random() * 2;
-      heart.style.animationDuration = duration + 's';
-      heart.style.animationDelay = Math.random() * 2 + 's';
+        function createHeart() {
+            if (container.childNodes.length > MAX_ELEMENTS) return;
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+            heart.style.bottom = '-50px';
 
-      container.appendChild(heart);
-      setTimeout(() => heart.remove(), (duration + 3) * 1000);
-    }
+            const duration = 5 + Math.random() * 2;
+            heart.style.animationDuration = duration + 's';
+            heart.style.animationDelay = Math.random() * 2 + 's';
 
-    function createBurst() {
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => createFallingText(), i * 100);
-      }
-      for (let i = 0; i < 3; i++) {
-        setTimeout(() => createHeart(), i * 250);
-      }
-    }
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), (duration + 3) * 1000);
+        }
 
-    function startAnimation() {
-      setInterval(() => createFallingText(), 150);
-      setInterval(() => createHeart(), 1000);
-      setTimeout(() => createBurst(), 500);
-    }
+        function createBurst() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => createFallingText(), i * 100);
+            }
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => createHeart(), i * 250);
+            }
+        }
 
-    function playMusicOnce() {
-      if (!musicStarted) {
-        bgm.play().catch(() => {});
-        musicStarted = true;
-      }
-    }
+        function startAnimation() {
+            setInterval(() => createFallingText(), 150);
+            setInterval(() => createHeart(), 1000);
+            setTimeout(() => createBurst(), 500);
+        }
 
-    document.addEventListener('click', (e) => {
-      playMusicOnce();
-      if (!e.target.classList.contains('tap-area')) {
-        createFallingText();
-        if (Math.random() > 0.7) createHeart();
-      }
-    });
+        // Hàm cố gắng phát nhạc khi có tương tác người dùng
+        function tryToPlayMusic() {
+            if (!musicStarted) {
+                // Sử dụng Promise để bắt lỗi nếu trình duyệt chặn autoplay
+                bgm.play().then(() => {
+                    musicStarted = true;
+                    // console.log("Music started successfully!"); // Có thể bỏ comment để debug
+                }).catch(error => {
+                    // console.log("Autoplay was prevented:", error); // Có thể bỏ comment để debug
+                    // Ở đây bạn có thể thêm logic để thông báo cho người dùng
+                    // ví dụ: "Vui lòng nhấp vào bất kỳ đâu trên màn hình để bật nhạc!"
+                });
+            }
+        }
 
-    document.addEventListener('touchstart', () => {
-      playMusicOnce();
-      createBurst();
-    });
+        // --- GẮN SỰ KIỆN KÍCH HOẠT NHẠC KHI CÓ TƯƠNG TÁC NGƯỜI DÙNG ---
+        // Gắn sự kiện lắng nghe tương tác người dùng vào toàn bộ document
+        // Sử dụng `{ once: true }` để hàm chỉ được gọi một lần duy nhất khi có tương tác đầu tiên
+        document.addEventListener('click', tryToPlayMusic, { once: true });
+        document.addEventListener('touchstart', tryToPlayMusic, { once: true });
+        document.addEventListener('keydown', tryToPlayMusic, { once: true });
 
-    document.addEventListener('keydown', (e) => {
-      playMusicOnce();
-      if (e.code === 'Space') {
-        e.preventDefault();
-        createBurst();
-      }
-    });
+        // Các event listener riêng biệt của bạn cho hiệu ứng tạo text/heart vẫn giữ nguyên
+        // và sẽ được kích hoạt mỗi khi có click/touch/keydown sau khi nhạc đã được thử phát.
+        document.addEventListener('click', (e) => {
+            // Chỉ tạo hiệu ứng text/heart nếu không phải click vào vùng tap-area
+            if (!e.target.classList.contains('tap-area')) {
+                createFallingText();
+                if (Math.random() > 0.7) createHeart();
+            }
+        });
 
-    document.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 40;
-      const y = (e.clientY / window.innerHeight - 0.5) * 20;
-      container.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
-    });
+        document.addEventListener('touchstart', () => {
+            createBurst();
+        });
 
-    startAnimation();
-  </script>
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault(); // Ngăn cuộn trang khi nhấn Space
+                createBurst();
+            }
+        });
+
+        // Hiệu ứng Parallax khi di chuyển chuột
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 40;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            container.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+        });
+
+        // Bắt đầu animation khi tải trang
+        startAnimation();
+    </script>
 </body>
 </html>
